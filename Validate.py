@@ -60,9 +60,14 @@ def pixelsToCoordinatesIni(P1,P2):
 
 # Coordinates to pixels
 def coordinatesToPixels(p):
+    
 #    p = [124660,-18945]
 #    p = [129668,-29854]
 #    p = [135757,-14281]
+##   p=[2.101586,41.3364]
+##Punt comprovació // 
+    p = [117110,-51250]
+     
     #Change the point to an array
     if not isinstance(p, np.ndarray):
         p = np.array(p)
@@ -211,11 +216,7 @@ def readRasterParcelData(file = 'raster_prova_new.asc'):
     else:
         print 'Reading initial parcel, file %s does not exist' % str(path_geo + file)
    
-# C
-def calculateMeanParcelHeight():
-    #parcelArray[parcelArray == ]
-     
-     
+    
      
 # Create the mesh of point where the calculations will be done meshCoordArray
 def createMesh(cols = 400, rows = 400):
@@ -312,8 +313,8 @@ def calculateMeanVel():
 
 
 def writeVelRaster(file='0-1.tiff'):
-    path = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Dades inicials/Mapes minieolica/'
-    #path= 'C:/Users/Pau/Documents/GitHub/arxius/mapes minieolica'
+   # path = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Dades inicials/Mapes minieolica/'
+    path= 'C:/Users/Pau/Documents/GitHub/arxius/mapes minieolica'
     path_file = path + file
     
     # My array lon / lat
@@ -349,25 +350,16 @@ def writeVelRaster(file='0-1.tiff'):
                                                        # to the file
     output_raster.GetRasterBand(1).WriteArray(meshMeanVelArray)
     
-    
-#Calculate the new velocity value over each point        
-def newCalculatedVelocity(height, meanVel, Zo_local):
-        global newvel,Uubl,Zubl,Zo_ref
-        print('Calculating new velocities')
-        Zo_ref = 0.14
-        Zubl = 200
-        Uubl = meanVel*(log(Zubl/Zo_ref)/log(10/Zo_ref))
-        newVel = Uubl*(log(height/Zo_local)/log(Zubl/Zo_local))
-        
-        return newVel  
-        
+ 
 
     
 
 """ Main Code """
 readRasterData(file='barcelona_raster_augusto_3000x3000 v9.asc')
-readRasterParcelData(file = 'barcelona_raster_augusto_500x400.asc')   #canviar per arxiu prova raster....
-readInitialVelocityData(vel_from = 0, vel_to = 1)
+readRasterParcelData(file = 'raster_prova_new.asc')   #canviar per arxiu prova raster....
+i = 0
+for i in range(40):
+    readInitialVelocityData(vel_from = i, vel_to = i+1);      ## no arriba a el màxim mai es quedarà a 39
 pixelsToCoordinatesIni(edgePoints[0]['bottom-left'], edgePoints[0]['top-rigth'])
 
 

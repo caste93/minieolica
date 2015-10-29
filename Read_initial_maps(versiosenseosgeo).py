@@ -115,8 +115,8 @@ def readInitialVelocityData(vel_from = 0, vel_to = 39):
         '255, 255, 255': None       #white
     }
     edgePoints = {}
-    path_vel = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Dades inicials/Mapes minieolica/'
-    #path_vel = 'C:/Users/Pau/Documents/GitHub/arxius/mapes minieolica'
+    #path_vel = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Dades inicials/Mapes minieolica/'
+    path_vel = 'C:/Users/Pau/Documents/GitHub/arxius/mapes minieolica'
     for i in range(vel_from,vel_to):
         seq = (str(i),str(i+1))
         file = '-'.join(seq) + '.bmp'
@@ -189,8 +189,8 @@ def readRasterData(file = 'barcelona_raster_augusto_500x400.asc'):
 def readRasterParcelData(file = 'raster_prova_new.asc'):
     global parcelArray
     #initial variables
-    path_geo = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Geo Raster/'
-    #path_geo = 'C:/Users/Pau/Documents/GitHub/arxius/'
+    #path_geo = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Geo Raster/'
+    path_geo = 'C:/Users/Pau/Documents/GitHub/arxius/'
     if os.path.isfile(path_geo + file):
         print 'Reading initial parcel from file %s' % file
         from numpy import genfromtxt
@@ -311,8 +311,8 @@ def calculateMeanVel():
 
 
 def writeVelRaster(file='0-1.tiff'):
-    path = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Dades inicials/Mapes minieolica/'
-    #path= 'C:/Users/Pau/Documents/GitHub/arxius/mapes minieolica'
+    #path = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Dades inicials/Mapes minieolica/'
+    path= 'C:/Users/Pau/Documents/GitHub/arxius/mapes minieolica'
     path_file = path + file
     
     # My array lon / lat
@@ -398,7 +398,7 @@ def CalculateRugosity(medheight, density):
                     print('Land')
                     Zo = 0.14                     #We considered there is no construction
             
-        if 0.2 < density < 0.4:
+        elif 0.2 < density < 0.4:
             print ('Medium density')
             print('Clasificating Parcel Height')
                 if 5 < medheight <= 7.5: 
@@ -416,7 +416,7 @@ def CalculateRugosity(medheight, density):
                 else: 
                     print('Land')
                     Zo = 0.14                     #We considered there is no construction
-        if 0.4 < density < 0.6:
+        elif 0.4 < density < 0.6:
             print ('High density')
             print('Clasificating Parcel Height')
                 if 5 < medheight <= 7.5: 
@@ -434,7 +434,7 @@ def CalculateRugosity(medheight, density):
                 else: 
                     print('Land')
                     Zo = 0.14                     #We considered there is no construction
-         if 0.6 < density:
+        elif 0.6 < density:
             print ('City center')
             print('Clasificating Parcel Height')
                 if 5 < medheight <= 7.5: 
