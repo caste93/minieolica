@@ -361,63 +361,7 @@ def newCalculatedVelocity(height, meanVel, Zo_local):
         
         return newVel  
         
-#Calculate Medium height in each parcel             
-def CalculateMediumHeight(height):
-        global medheight
-        medheight
-        
-        return medheight
-        
-#Calculate Buildings density in each parcel             
-def CalculateBuildingDensity():
-        
-        
-        return density        
-        
-#Calculate rugosity in each parcel             
-def CalculateRugosity(medheight, density):
-        global Zo, h, d
-        
-        print('Clasificating Parcel Height')
-        if 5 < medheight <= 7.5: 
-            print('Low range')
-            h = 1
-        if 7.5 < medheight <= 12: 
-            print('Medium range')
-            h = 2
-        if 12 < medheight <= 20:
-            print('Tall range')
-            h = 3
-        if medheight > 20:
-            print('high-rise')
-            h = 4
-        else: 
-            print('Land')
-            h = 0                     #We considered there is no construction
-             
-        print('Clasificating Parcel density')
-        if 0.2 > density:
-            print ('Low density')
-            d = 0
-        if 0.2 < density < 0.4:
-            print ('Medium density')
-            d = 1
-        if 0.4 < density:
-            print ('High density')
-            d = 2
-        else: 
-            print('Error Calculating Density')
-        
-        print('Calculating Zo')
-        global x, r                       #r=Rugosty
-        x=((h+d)/2)
-        if x>2.5:
-            r=2
-            print 'Rugosity = %s' % r
-        if x==2.5:
-            r = 1.5
-            print 'Rugosity = %s' % r
-        
+
     
 
 """ Main Code """
@@ -425,9 +369,7 @@ readRasterData(file='barcelona_raster_augusto_3000x3000 v9.asc')
 readRasterParcelData(file = 'barcelona_raster_augusto_500x400.asc')   #canviar per arxiu prova raster....
 readInitialVelocityData(vel_from = 0, vel_to = 1)
 pixelsToCoordinatesIni(edgePoints[0]['bottom-left'], edgePoints[0]['top-rigth'])
-createMesh(cols = 400, rows = 400)
-calculateMeanVel()
-calculateMeanParcelHeight()
+
 
 """
 # Create a jpeg file with the new interpolated velocity 
