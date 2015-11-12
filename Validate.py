@@ -66,7 +66,7 @@ def coordinatesToPixels(p):
 #    p = [135757,-14281]
 ##   p=[2.101586,41.3364]
 ##Punt comprovació // 
-    p = [117110,-51250]
+   
      
     #Change the point to an array
     if not isinstance(p, np.ndarray):
@@ -121,43 +121,44 @@ def readInitialVelocityData(vel_from = 0, vel_to = 39):
         '255, 255, 255': None       #white
     }
     edgePoints = {}
-    path_vel = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Dades inicials/Mapes minieolica/'
-    #path_vel = 'C:/Users/Pau/Documents/GitHub/arxius/mapes minieolica'
-    for i in range(vel_from,vel_to):
-        seq = (str(i),str(i+1))
-        file = '-'.join(seq) + '.bmp'
-        if os.path.isfile(path_vel + file):
-            print 'Reading initial velocity from file %s' % file
-            im = Image.open(path_vel + file)
-            (width, height) = im.size
-            width = int(width)
-            width_25 = int(width*0.25)
-            width_50 = int(width*0.5)
-            width_75 = int(width*0.75)
-            width_100 = int(width-1)
-            height = int(height)
-            rgb_im = im.convert('RGB')       
-            # Insert the values into a 2D matrix (x= width, y=height)
-            # and look for the reference points need to pixelToCoordinates
-            pix_max_x = [0,0]
-            pix_min_x = [width, height]
-            velArray = np.empty((width,height+1))
-            for x in range(width):
-                for y in range(height):
-                    r, g, b = rgb_im.getpixel((x, y))
-                    if (r, g, b) == (52, 52, 52):
-                        if x > pix_max_x[0]:
-                            pix_max_x = [x,abs(y-height)]
-                        if x < pix_min_x[0]:
-                            pix_min_x = [x,abs(y-height)]
-                    rgb = (str(r), str(g), str(b))
-                    velArray[x,abs(y-height)] = rgb_colors_values[', '.join(rgb)]
-                if (x == width_25) : print '25% done'
-                if (x == width_50) : print '50% done'
-                if (x == width_75) : print '75% done'
-                if (x == width_100): print '100% done'
-            edgePoints[i] = {'top-rigth': pix_max_x, 'bottom-left': pix_min_x}
-            
+    #path_vel = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Dades inicials/Mapes minieolica/'
+    path_vel = '/Users/Pau/Documents/GitHub/arxius/mapes minieolica/'
+    seq = (str(vel_from),str(vel_to))
+    file = '-'.join(seq) + '.bmp'
+    if os.path.isfile(path_vel + file):
+        print 'Reading initial velocity from file %s' % file
+        im = Image.open(path_vel + file)
+        (width, height) = im.size
+        width = int(width)
+        width_25 = int(width*0.25)
+        width_50 = int(width*0.5)
+        width_75 = int(width*0.75)
+        width_100 = int(width-1)
+        height = int(height)
+        rgb_im = im.convert('RGB')       
+        # Insert the values into a 2D matrix (x= width, y=height)
+        # and look for the reference points need to pixelToCoordinates
+        pix_max_x = [0,0]
+        pix_min_x = [width, height]
+        velArray = np.empty((width,height+1))
+        for x in range(width):
+            for y in range(height):
+                r, g, b = rgb_im.getpixel((x, y))
+                if (r, g, b) == (52, 52, 52):
+                    if x > pix_max_x[0]:
+                        pix_max_x = [x,abs(y-height)]
+                    if x < pix_min_x[0]:
+                        pix_min_x = [x,abs(y-height)]
+                rgb = (str(r), str(g), str(b))
+                velArray[x,abs(y-height)] = rgb_colors_values[', '.join(rgb)]
+            if (x == width_25) : print '25% done'
+            if (x == width_50) : print '50% done'
+            if (x == width_75) : print '75% done'
+            if (x == width_100): print '100% done'
+        edgePoints= {'top-rigth': pix_max_x, 'bottom-left': pix_min_x}
+    else: 
+        print 'Reading initial geometry, file %s does not exist' % str(path_vel + file)
+   
 
 # Reading geometry data from the raster file (values are stored in a matrix called geoArray)
 def readRasterData(file = 'barcelona_raster_augusto_500x400.asc'):
@@ -195,8 +196,8 @@ def readRasterData(file = 'barcelona_raster_augusto_500x400.asc'):
 def readRasterParcelData(file = 'raster_prova_new.asc'):
     global parcelArray
     #initial variables
-    path_geo = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Geo Raster/'
-    #path_geo = 'C:/Users/Pau/Documents/GitHub/arxius/'
+    #path_geo = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Geo Raster/'
+    path_geo = 'C:/Users/Pau/Documents/GitHub/arxius/'
     if os.path.isfile(path_geo + file):
         print 'Reading initial parcel from file %s' % file
         from numpy import genfromtxt
@@ -314,7 +315,7 @@ def calculateMeanVel():
 
 def writeVelRaster(file='0-1.tiff'):
    # path = '/home/daniel/Documentos/Ofertes/Recurs Eolic/Estudi/Dades inicials/Mapes minieolica/'
-    path= 'C:/Users/Pau/Documents/GitHub/arxius/mapes minieolica'
+    path= 'C:/Users/Pau/Documents/GitHub/arxius/mapes minieolica/'
     path_file = path + file
     
     # My array lon / lat
@@ -356,12 +357,19 @@ def writeVelRaster(file='0-1.tiff'):
 
 """ Main Code """
 readRasterData(file='barcelona_raster_augusto_3000x3000 v9.asc')
-readRasterParcelData(file = 'raster_prova_new.asc')   #canviar per arxiu prova raster....
-i = 0
-for i in range(40):
-    readInitialVelocityData(vel_from = i, vel_to = i+1);      ## no arriba a el màxim mai es quedarà a 39
-pixelsToCoordinatesIni(edgePoints[0]['bottom-left'], edgePoints[0]['top-rigth'])
-
+#readRasterParcelData(file = 'raster_prova_new.asc')   #canviar per arxiu prova raster....
+horesList=[]
+i=0
+for i in range (0,40):
+    readInitialVelocityData(vel_from = i, vel_to = i+1)      ## no arriba a el màxim mai es quedarà a 39
+   # print edgePoints[0]['bottom-left'], edgePoints[0]['top-rigth']
+    pixelsToCoordinatesIni(edgePoints['bottom-left'], edgePoints['top-rigth'])
+    p=[938060,4601531]
+    pnew=coordinatesToPixels(p)
+    hores=velArray[pnew[0],pnew[1]]
+    horesList.append([i,hores])
+    print horesList
+    
 
 """
 # Create a jpeg file with the new interpolated velocity 

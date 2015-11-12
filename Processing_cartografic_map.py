@@ -8,14 +8,15 @@ i quin tipus
 @author: daniel
 """
 # Libraries
-from osgeo import gdal
-from osgeo import gdal_array
-from osgeo import osr
+
+
 import numpy as np
+import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
 import os.path
 import math
 import csv
-from osgeo.gdalconst import *
+
 
  
 # Find the different information (translation, rotation and scalefactor) needed to change pixels to coordinates 
@@ -245,7 +246,7 @@ def calculateDistance(p, centralPoint):
 
 #Calculate the mean velocity value over the pixel mesh
 def calculateRasterInsideCartographic():
-    global rasterInsideCartographicArray
+    global rasterInsideCartographicArray, geoArray, top_left_x, resolution_x, top_left_y, resolution_y 
     print('Calculating the coordinates of the raster file')
     dim_X , dim_Y = geoArray.shape
     rasterInsideCartographicArray = np.zeros((dim_X,dim_Y), dtype=object) 
